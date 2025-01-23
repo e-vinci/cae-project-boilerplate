@@ -60,6 +60,14 @@ public class PizzaController {
     return pizza;
   }
 
+  private boolean isInvalidPizza(NewPizza newPizza) {
+    return newPizza == null
+        || newPizza.getTitle() == null
+        || newPizza.getTitle().isBlank()
+        || newPizza.getContent() == null
+        || newPizza.getContent().isBlank();
+  }
+
   /**
    * Add a pizza.
    *
@@ -69,11 +77,7 @@ public class PizzaController {
   @PostMapping({"", "/"})
   @PreAuthorize("hasRole('ROLE_ADMIN')")
   public Pizza addPizza(@RequestBody NewPizza newPizza) {
-    if (newPizza == null
-        || newPizza.getTitle() == null
-        || newPizza.getTitle().isBlank()
-        || newPizza.getContent() == null
-        || newPizza.getContent().isBlank()) {
+    if (isInvalidPizza(newPizza)) {
       throw new ResponseStatusException(HttpStatus.BAD_REQUEST);
     }
 
@@ -106,9 +110,7 @@ public class PizzaController {
   @PatchMapping("/{id}")
   @PreAuthorize("hasRole('ROLE_ADMIN')")
   public Pizza updatePizza(@PathVariable long id, @RequestBody NewPizza newPizza) {
-    if (newPizza == null
-        || (newPizza.getTitle() != null && newPizza.getTitle().isBlank())
-        || (newPizza.getContent() != null && newPizza.getContent().isBlank())) {
+    if (isInvalidPizza(newPizza)) {
       throw new ResponseStatusException(HttpStatus.BAD_REQUEST);
     }
 

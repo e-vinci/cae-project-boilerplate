@@ -64,6 +64,16 @@ public class DrinkController {
     return drink;
   }
 
+  private boolean isInvalidDrink(NewDrink newDrink) {
+    return newDrink == null
+        || newDrink.getTitle() == null
+        || newDrink.getTitle().isBlank()
+        || newDrink.getImage() == null
+        || newDrink.getImage().isBlank()
+        || newDrink.getVolume() <= 0
+        | newDrink.getPrice() <= 0;
+  }
+
   /**
    * Add a drink.
    *
@@ -73,13 +83,7 @@ public class DrinkController {
   @PostMapping({"", "/"})
   @PreAuthorize("hasRole('ROLE_ADMIN')")
   public Drink addDrink(@RequestBody NewDrink newDrink) {
-    if (newDrink == null
-        || newDrink.getTitle() == null
-        || newDrink.getTitle().isBlank()
-        || newDrink.getImage() == null
-        || newDrink.getImage().isBlank()
-        || newDrink.getVolume() <= 0
-        | newDrink.getPrice() <= 0) {
+    if (isInvalidDrink(newDrink)) {
       throw new ResponseStatusException(HttpStatus.BAD_REQUEST);
     }
 
@@ -112,11 +116,7 @@ public class DrinkController {
   @PatchMapping("/{id}")
   @PreAuthorize("hasRole('ROLE_ADMIN')")
   public Drink updateDrink(@PathVariable(name = "id") long id, @RequestBody NewDrink newDrink) {
-    if (newDrink == null
-        || (newDrink.getTitle() != null && newDrink.getTitle().isBlank())
-        || (newDrink.getImage() != null && newDrink.getImage().isBlank())
-        || newDrink.getVolume() < 0.0
-        || newDrink.getPrice() < 0.0) {
+    if (isInvalidDrink(newDrink)) {
       throw new ResponseStatusException(HttpStatus.BAD_REQUEST);
     }
 

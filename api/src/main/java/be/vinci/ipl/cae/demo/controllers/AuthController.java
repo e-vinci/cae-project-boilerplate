@@ -28,6 +28,14 @@ public class AuthController {
     this.userService = userService;
   }
 
+  private boolean isInvalidCredentials(Credentials credentials) {
+    return credentials == null
+        || credentials.getUsername() == null
+        || credentials.getUsername().isBlank()
+        || credentials.getPassword() == null
+        || credentials.getPassword().isBlank();
+  }
+
   /**
    * Register a new user.
    *
@@ -36,11 +44,7 @@ public class AuthController {
    */
   @PostMapping("/register")
   public AuthenticatedUser register(@RequestBody Credentials credentials) {
-    if (credentials == null
-        || credentials.getUsername() == null
-        || credentials.getUsername().isBlank()
-        || credentials.getPassword() == null
-        || credentials.getPassword().isBlank()) {
+    if (isInvalidCredentials(credentials)) {
       throw new ResponseStatusException(HttpStatus.BAD_REQUEST);
     }
 
@@ -61,11 +65,7 @@ public class AuthController {
    */
   @PostMapping("/login")
   public AuthenticatedUser login(@RequestBody Credentials credentials) {
-    if (credentials == null
-        || credentials.getUsername() == null
-        || credentials.getUsername().isBlank()
-        || credentials.getPassword() == null
-        || credentials.getPassword().isBlank()) {
+    if (isInvalidCredentials(credentials)) {
       throw new ResponseStatusException(HttpStatus.BAD_REQUEST);
     }
 
