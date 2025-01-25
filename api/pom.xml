@@ -135,16 +135,12 @@
         <version>3.26.0</version>
 
         <configuration>
-
+          <failOnViolation>true</failOnViolation>
+          <printFailingErrors>true</printFailingErrors>
+          <minimumTokens>40</minimumTokens>
           <rulesets>
             <ruleset>rulesets/java/quickstart.xml</ruleset>
           </rulesets>
-
-
-          <compileSourceRoots>
-            <compileSourceRoot>target/generated-sources/delombok</compileSourceRoot>
-          </compileSourceRoots>
-
         </configuration>
         <executions>
           <execution>
