@@ -53,7 +53,7 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
         User user = userService.readOneFromUsername(username);
         if (user != null) {
           List<GrantedAuthority> authorities = new ArrayList<>();
-          if (username.equals("admin")) {
+          if ("admin".equals(username)) {
             authorities.add(new SimpleGrantedAuthority("ROLE_ADMIN"));
           }
           UsernamePasswordAuthenticationToken authentication =
